@@ -31,9 +31,9 @@ const App = () => {
     // login with access token if not expired
     if (!accessToken) {
       const accessTokenFromCookies = getAccessTokenFromCookies();
+
       if (accessTokenFromCookies) {
         dispatch(setToken(accessTokenFromCookies));
-
         accessToken = accessTokenFromCookies;
       }
     }
