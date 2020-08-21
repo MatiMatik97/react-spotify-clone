@@ -1,0 +1,28 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+}
+
+.login__spotifyLogo {
+    width: 100%;
+}
+
+.login__link {
+    text-align: center;
+    padding: 20px;
+    background-color: #1db954;
+    border-radius: 99px;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+}
+
+@media (min-width: 800px) {
+    .login__spotifyLogo {
+        width: 800px;
+    }
+}
