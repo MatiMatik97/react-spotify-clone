@@ -5,6 +5,8 @@ export const SET_TOKEN = 'SET_TOKEN';
 
 export const SET_PLAYLISTS = 'SET_PLAYLISTS';
 
+export const SET_DISCOVER_WEEKLY = 'SET_DISCOVER_WEEKLY';
+
 // actions
 export const setUser = (user) => {
     return {
@@ -24,5 +26,12 @@ export const setPlaylists = (playlists) => {
     return {
         type: SET_PLAYLISTS,
         payload: playlists
+    };
+}
+
+export const setDiscoverWeekly = (discover_weekly) => {
+    return {
+        type: SET_DISCOVER_WEEKLY,
+        payload: discover_weekly
     };
 }

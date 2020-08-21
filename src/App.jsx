@@ -9,7 +9,12 @@ import {
 } from "./utils/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import { useStateProviderValue } from "./state/provider";
-import { setUser, setToken, setPlaylists } from "./state/actions";
+import {
+  setUser,
+  setToken,
+  setPlaylists,
+  setDiscoverWeekly,
+} from "./state/actions";
 
 const spotify = new SpotifyWebApi();
 
@@ -17,52 +22,48 @@ const App = () => {
   const [{ token }, dispatch] = useStateProviderValue();
 
   useEffect(() => {
-    let accessToken = null;
+    (async () => {
+      let accessToken = null;
+      let playlist = null;
 
-    // login with "LOGIN WITH SPOTIFY" button
-    const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
-    if (accessTokenFromUrl) {
-      dispatch(setToken(accessTokenFromUrl));
-      setAccessTokenCookies(accessTokenFromUrl, expiresIn);
+      // login with "LOGIN WITH SPOTIFY" button
+      const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
+      if (accessTokenFromUrl) {
+        dispatch(setToken(accessTokenFromUrl));
+        setAccessTokenCookies(accessTokenFromUrl, expiresIn);
 
-      accessToken = accessTokenFromUrl;
-    }
-
-    // login with access token if not expired
-    if (!accessToken) {
-      const accessTokenFromCookies = getAccessTokenFromCookies();
-
-      if (accessTokenFromCookies) {
-        dispatch(setToken(accessTokenFromCookies));
-        accessToken = accessTokenFromCookies;
+        accessToken = accessTokenFromUrl;
       }
-    }
 
-    if (accessToken) {
-      spotify.setAccessToken(accessToken);
+      // login with access token if not expired
+      if (!accessToken) {
+        const accessTokenFromCookies = getAccessTokenFromCookies();
 
-      // get user
-      spotify
-        .getMe()
-        .then((user) => {
-          dispatch(setUser(user));
-        })
-        .catch((error) => {
-          dispatch(setToken(null));
-          dispatch(setUser(null));
-          console.error(error);
-        });
-    }
+        if (accessTokenFromCookies) {
+          dispatch(setToken(accessTokenFromCookies));
+          accessToken = accessTokenFromCookies;
+        }
+      }
 
-    // get user's playlists
-    spotify
-      .getUserPlaylists()
-      .then((playlists) => {
-        dispatch(setPlaylists(playlists));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      if (accessToken) {
+        spotify.setAccessToken(accessToken);
+
+        // get user
+        const user = await spotify.getMe();
+        dispatch(setUser(user));
+
+        // get user's playlists
+        const userPlaylists = await spotify.getUserPlaylists();
+        dispatch(setPlaylists(userPlaylists));
+
+        // get weekly discover from first playlist
+        if (userPlaylists.items.length > 0) {
+          const playlistId = userPlaylists?.items[0].id;
+          const discoverWeekly = await spotify.getPlaylist(playlistId);
+          dispatch(setDiscoverWeekly(discoverWeekly));
+        }
+      }
+    })();
 
     // eslint-disable-next-line
   }, []);
