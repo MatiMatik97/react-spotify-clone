@@ -1,36 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Login from "./components/Login/Login";
+import Player from "./components/Player/Player";
 import {
   getAccessTokenFromUrl,
   setAccessTokenCookies,
   getAccessTokenFromCookies,
 } from "./utils/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
+import { useStateProviderValue } from "./state/provider";
+import { setUser, setToken } from "./state/actions";
 
-const spotify = SpotifyWebApi();
+const spotify = new SpotifyWebApi();
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  const [{ token }, dispatch] = useStateProviderValue();
 
   useEffect(() => {
-    (async () => {
-      // login with "LOGIN WITH SPOTIFY" button
-      const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
-      if (accessTokenFromUrl) {
-        setToken(accessTokenFromUrl);
-        setAccessTokenCookies(accessTokenFromUrl, expiresIn);
-      }
+    let accessToken = null;
 
-      // login with access token if not expired
-      const accessTokenFromCookies = await getAccessTokenFromCookies();
+    // login with "LOGIN WITH SPOTIFY" button
+    const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
+    if (accessTokenFromUrl) {
+      dispatch(setToken(accessTokenFromUrl));
+      setAccessTokenCookies(accessTokenFromUrl, expiresIn);
+
+      accessToken = accessTokenFromUrl;
+    }
+
+    // login with access token if not expired
+    if (!accessToken) {
+      const accessTokenFromCookies = getAccessTokenFromCookies();
       if (accessTokenFromCookies) {
-        setToken(accessTokenFromCookies);
+        dispatch(setToken(accessTokenFromCookies));
+
+        accessToken = accessTokenFromCookies;
       }
-    })();
+    }
+
+    if (accessToken) {
+      spotify.setAccessToken(accessToken);
+
+      spotify
+        .getMe()
+        .then((user) => {
+          dispatch(setUser(user));
+        })
+        .catch((error) => {
+          dispatch(setToken(null));
+          dispatch(setUser(null));
+          console.error(error);
+        });
+    }
+    // eslint-disable-next-line
   }, []);
 
-  return <div className="app">{token ? <h1>Logged In</h1> : <Login />}</div>;
+  return (
+    <div className="app">
+      {token ? <Player spotify={spotify} /> : <Login />}
+    </div>
+  );
 };
 
 export default App;

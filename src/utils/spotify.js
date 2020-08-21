@@ -30,34 +30,12 @@ export const setAccessTokenCookies = (accessToken, expiresIn) => {
     document.cookie = `spotify_access_token=${accessToken}; expires=${date.toUTCString()}; path=/`;
 }
 
-export const getAccessTokenFromCookies = async () => {
+export const getAccessTokenFromCookies = () => {
     if (document.cookie.length === 0) return null;
 
     const urlParams = new URLSearchParams(`?${document.cookie.replace(/(; )/g, "&")}`);
 
-    const accessTokenFromCookies = urlParams.get("spotify_access_token");
-
-    try {
-        const response = await fetch('https://api.spotify.com/v1/me', {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessTokenFromCookies}`
-            },
-            referrerPolicy: 'no-referrer',
-        });
-
-        if (response.ok) {
-            // console.log("ok");
-            return accessTokenFromCookies;
-        } else {
-            throw new Error("Wrong access token...");
-        }
-    } catch (error) {
-        // console.log("not ok");
-        return null;
-    }
+    return urlParams.get("spotify_access_token");
 }
 
 export const loginUrl = `${authEndpoint}?response_type=token&show_dialog=true&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${encodeURIComponent(scopes)}`;
