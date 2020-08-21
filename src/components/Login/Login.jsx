@@ -7,7 +7,7 @@ const Login = () => {
     <div className="login">
       <img
         src="https://beinggarifuna.com/wp-content/uploads/2018/05/Spotify-symbol.jpg"
-        alt="spotify-logo"
+        alt="login-spotify-logo"
         className="login__spotifyLogo"
       />
       <a href={loginUrl} className="login__link">

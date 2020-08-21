@@ -9,7 +9,7 @@ import {
 } from "./utils/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import { useStateProviderValue } from "./state/provider";
-import { setUser, setToken } from "./state/actions";
+import { setUser, setToken, setPlaylists } from "./state/actions";
 
 const spotify = new SpotifyWebApi();
 
@@ -41,6 +41,7 @@ const App = () => {
     if (accessToken) {
       spotify.setAccessToken(accessToken);
 
+      // get user
       spotify
         .getMe()
         .then((user) => {
@@ -52,6 +53,17 @@ const App = () => {
           console.error(error);
         });
     }
+
+    // get user's playlists
+    spotify
+      .getUserPlaylists()
+      .then((playlists) => {
+        dispatch(setPlaylists(playlists));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     // eslint-disable-next-line
   }, []);
 

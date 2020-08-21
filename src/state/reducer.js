@@ -1,4 +1,4 @@
-import { SET_USER, SET_TOKEN } from './actions'
+import { SET_USER, SET_TOKEN, SET_PLAYLISTS } from './actions'
 
 export const initialState = {
     token: null,
@@ -19,6 +19,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 token: action.payload
+            }
+        case SET_PLAYLISTS:
+            return {
+                ...state,
+                playlists: action.payload
             }
         default:
             return state;
