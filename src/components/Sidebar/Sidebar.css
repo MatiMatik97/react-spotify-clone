@@ -3,9 +3,10 @@
     flex: 0.2;
     background-color: #040404;
     color: white;
-    height: 100vh;
+    height: calc(100vh - 100px);
     min-width: 230px;
     padding: 0px 10px;
+    margin-bottom: 100px;
 }
 
 .sidebar__spotifyLogo {

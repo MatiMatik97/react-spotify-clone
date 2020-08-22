@@ -1,9 +1,29 @@
 .body {
     flex: 0.8;
     background: linear-gradient(rgb(91, 87, 115), black);
-    height: 100vh;
+    height: calc(100vh - 83px);
     color: white;
     padding: 30px;
+    overflow: scroll;
+}
+
+.body::-webkit-scrollbar {
+    width: 10px;
+    transition: all 1000ms ease-in;
+}
+
+.body::-webkit-scrollbar-track {
+    background: #ebebeb;
+}
+
+.body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #555;
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+    background: #666;
 }
 
 .body__info {
@@ -31,4 +51,29 @@
 .body__infoText>p {
     font-size: 14px;
     color: lightgray;
+}
+
+.body__songs {
+    margin: 20px -30px;
+    margin-bottom: 0px;
+}
+
+.body__icons {
+    display: flex;
+    align-items: center;
+}
+
+.body__icons>.MuiSvgIcon-root {
+    margin-right: 20px;
+}
+
+.body__shuffle {
+    font-size: 80px !important;
+    margin: 20px 0 20px 50px;
+}
+
+.body__shuffle:hover {
+    cursor: pointer;
+    transition: transform 200ms ease-in;
+    transform: scale(1.05);
 }

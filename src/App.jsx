@@ -24,7 +24,6 @@ const App = () => {
   useEffect(() => {
     (async () => {
       let accessToken = null;
-      let playlist = null;
 
       // login with "LOGIN WITH SPOTIFY" button
       const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
