@@ -32,4 +32,5 @@
 .songRow__album {
     height: 40px;
     object-fit: contain;
+    border-radius: 5px;
 }
