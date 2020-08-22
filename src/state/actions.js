@@ -5,7 +5,9 @@ export const SET_TOKEN = 'SET_TOKEN';
 
 export const SET_PLAYLISTS = 'SET_PLAYLISTS';
 
-export const SET_DISCOVER_WEEKLY = 'SET_DISCOVER_WEEKLY';
+export const SET_CURRENT_PLAYLIST = 'SET_CURRENT_PLAYLIST';
+
+export const SET_CURRENT_SONG = 'SET_CURRENT_SONG';
 
 // actions
 export const setUser = (user) => {
@@ -29,9 +31,16 @@ export const setPlaylists = (playlists) => {
     };
 }
 
-export const setDiscoverWeekly = (discover_weekly) => {
+export const setCurrentPlaylist = (currentPlaylist) => {
     return {
-        type: SET_DISCOVER_WEEKLY,
-        payload: discover_weekly
+        type: SET_CURRENT_PLAYLIST,
+        payload: currentPlaylist
+    };
+}
+
+export const setCurrentSong = (currentSong) => {
+    return {
+        type: SET_CURRENT_SONG,
+        payload: currentSong
     };
 }

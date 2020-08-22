@@ -26,6 +26,16 @@
     border-radius: 5px;
 }
 
+.footer__songInfo {
+    width: 20vw;
+}
+
+.footer__songInfo>* {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .footer__center {
     flex: 0.4;
     color: gray;

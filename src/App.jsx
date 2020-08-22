@@ -13,7 +13,7 @@ import {
   setUser,
   setToken,
   setPlaylists,
-  setDiscoverWeekly,
+  setCurrentPlaylist,
 } from "./state/actions";
 
 const spotify = new SpotifyWebApi();
@@ -58,8 +58,8 @@ const App = () => {
         // get weekly discover from first playlist
         if (userPlaylists.items.length > 0) {
           const playlistId = userPlaylists?.items[0].id;
-          const discoverWeekly = await spotify.getPlaylist(playlistId);
-          dispatch(setDiscoverWeekly(discoverWeekly));
+          const currentPlaylist = await spotify.getPlaylist(playlistId);
+          dispatch(setCurrentPlaylist(currentPlaylist));
         }
       }
     })();

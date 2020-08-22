@@ -1,29 +1,12 @@
 .body {
     flex: 0.8;
     background: linear-gradient(rgb(91, 87, 115), black);
-    height: calc(100vh - 83px);
+    height: calc(100vh - 100px);
     color: white;
     padding: 30px;
-    overflow: scroll;
-}
-
-.body::-webkit-scrollbar {
-    width: 10px;
-    transition: all 1000ms ease-in;
-}
-
-.body::-webkit-scrollbar-track {
-    background: #ebebeb;
-}
-
-.body::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #555;
-}
-
-.body::-webkit-scrollbar-thumb:hover {
-    cursor: pointer;
-    background: #666;
+    padding-bottom: 15px;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .body__info {

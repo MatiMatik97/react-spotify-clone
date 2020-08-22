@@ -1,12 +1,15 @@
-import { SET_USER, SET_TOKEN, SET_PLAYLISTS, SET_DISCOVER_WEEKLY } from './actions'
+import { SET_USER, SET_TOKEN, SET_PLAYLISTS, SET_CURRENT_PLAYLIST, SET_CURRENT_SONG } from './actions'
 
 export const initialState = {
     token: null,
     user: null,
     playlists: [],
-    playing: false,
-    item: null,
-    discover_weekly: null
+    currentSong: {
+        img: "https://i.imgflip.com/2flvc1.jpg",
+        name: "Hotline Bling",
+        artist: "Drake"
+    },
+    currentPlaylist: null
 }
 
 const reducer = (state, action) => {
@@ -26,10 +29,15 @@ const reducer = (state, action) => {
                 ...state,
                 playlists: action.payload
             }
-        case SET_DISCOVER_WEEKLY:
+        case SET_CURRENT_PLAYLIST:
             return {
                 ...state,
-                discover_weekly: action.payload
+                currentPlaylist: action.payload
+            }
+        case SET_CURRENT_SONG:
+            return {
+                ...state,
+                currentSong: action.payload
             }
         default:
             return state;

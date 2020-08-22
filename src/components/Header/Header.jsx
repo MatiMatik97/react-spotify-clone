@@ -8,7 +8,7 @@ const Header = () => {
   const [{ user }] = useStateProviderValue();
 
   return (
-    <div className="header">
+    <div className="header" id="header">
       <div className="header__left">
         <SearchIcon />
         <input type="text" placeholder="Search..." />

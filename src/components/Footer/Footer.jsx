@@ -8,19 +8,19 @@ import RepeatIcon from "@material-ui/icons/Repeat";
 import { Grid, Slider } from "@material-ui/core";
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
+import { useStateProviderValue } from "../../state/provider";
 
 const Footer = () => {
+  const [{ currentSong }] = useStateProviderValue();
+  const { img, name, artist } = currentSong;
+
   return (
     <div className="footer">
       <div className="footer__left">
-        <img
-          src="https://i.imgflip.com/2flvc1.jpg"
-          alt="footer-album-logo"
-          className="footer__albumLogo"
-        />
+        <img src={img} alt="footer-album-logo" className="footer__albumLogo" />
         <div className="footer__songInfo">
-          <h4>Hotline Bling</h4>
-          <p>Drake</p>
+          <h4>{name}</h4>
+          <p>{artist}</p>
         </div>
       </div>
 
