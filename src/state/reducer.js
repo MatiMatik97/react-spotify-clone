@@ -9,7 +9,7 @@ export const initialState = {
         name: "Hotline Bling",
         artist: "Drake"
     },
-    currentPlaylist: null
+    currentPlaylist: null,
 }
 
 const reducer = (state, action) => {

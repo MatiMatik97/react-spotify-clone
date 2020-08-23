@@ -66,7 +66,6 @@ const App = () => {
 
     // eslint-disable-next-line
   }, []);
-
   return (
     <div className="app">
       {token ? <Player spotify={spotify} /> : <Login />}
