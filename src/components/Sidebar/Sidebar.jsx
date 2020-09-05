@@ -7,7 +7,7 @@ import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import { useStateProviderValue } from "../../state/provider";
 import { setCurrentPlaylist } from "../../state/actions";
 
-const Sidebar = ({ spotify }) => {
+const Sidebar = ({ spotify, logout }) => {
   const [{ playlists }, dispatch] = useStateProviderValue();
 
   const onClickPlaylist = async (playlistId) => {
@@ -24,6 +24,7 @@ const Sidebar = ({ spotify }) => {
         src="https://beinggarifuna.com/wp-content/uploads/2018/05/Spotify-symbol-300x91.jpg"
         alt="sidebar-spotify-logo"
         className="sidebar__spotifyLogo"
+        onClick={logout}
       />
 
       <SidebarOption title="Home" Icon={HomeIcon} />

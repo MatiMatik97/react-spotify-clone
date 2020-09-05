@@ -4,8 +4,9 @@ import Login from "./components/Login/Login";
 import Player from "./components/Player/Player";
 import {
   getAccessTokenFromUrl,
-  setAccessTokenCookies,
-  getAccessTokenFromCookies,
+  setAccessTokenLocalStorage,
+  getAccessTokenFromLocalStorage,
+  removeAccessTokenFromLocalStorage,
 } from "./utils/spotify";
 import SpotifyWebApi from "spotify-web-api-js";
 import { useStateProviderValue } from "./state/provider";
@@ -21,45 +22,56 @@ const spotify = new SpotifyWebApi();
 const App = () => {
   const [{ token }, dispatch] = useStateProviderValue();
 
+  const logout = () => {
+    removeAccessTokenFromLocalStorage("");
+    dispatch(setToken(null));
+  };
+
   useEffect(() => {
     (async () => {
       let accessToken = null;
 
       // login with "LOGIN WITH SPOTIFY" button
-      const { accessTokenFromUrl, expiresIn } = getAccessTokenFromUrl();
+      const accessTokenFromUrl = getAccessTokenFromUrl();
       if (accessTokenFromUrl) {
         dispatch(setToken(accessTokenFromUrl));
-        setAccessTokenCookies(accessTokenFromUrl, expiresIn);
+        setAccessTokenLocalStorage(accessTokenFromUrl);
 
         accessToken = accessTokenFromUrl;
       }
 
-      // login with access token if not expired
+      // login with access token from local storage
       if (!accessToken) {
-        const accessTokenFromCookies = getAccessTokenFromCookies();
+        const accessTokenFromLocalStorage = getAccessTokenFromLocalStorage();
 
-        if (accessTokenFromCookies) {
-          dispatch(setToken(accessTokenFromCookies));
-          accessToken = accessTokenFromCookies;
+        if (accessTokenFromLocalStorage) {
+          dispatch(setToken(accessTokenFromLocalStorage));
+          accessToken = accessTokenFromLocalStorage;
         }
       }
 
       if (accessToken) {
-        spotify.setAccessToken(accessToken);
+        try {
+          spotify.setAccessToken(accessToken);
+          // get user
+          const user = await spotify.getMe();
+          dispatch(setUser(user));
 
-        // get user
-        const user = await spotify.getMe();
-        dispatch(setUser(user));
+          // get user's playlists
+          const userPlaylists = await spotify.getUserPlaylists();
+          dispatch(setPlaylists(userPlaylists));
 
-        // get user's playlists
-        const userPlaylists = await spotify.getUserPlaylists();
-        dispatch(setPlaylists(userPlaylists));
+          // get weekly discover from first playlist
+          if (userPlaylists.items.length > 0) {
+            const playlistId = userPlaylists?.items[0].id;
+            const currentPlaylist = await spotify.getPlaylist(playlistId);
+            dispatch(setCurrentPlaylist(currentPlaylist));
+          }
+        } catch (error) {
+          // console.error(error);
 
-        // get weekly discover from first playlist
-        if (userPlaylists.items.length > 0) {
-          const playlistId = userPlaylists?.items[0].id;
-          const currentPlaylist = await spotify.getPlaylist(playlistId);
-          dispatch(setCurrentPlaylist(currentPlaylist));
+          // log out
+          logout();
         }
       }
     })();
@@ -68,7 +80,7 @@ const App = () => {
   }, []);
   return (
     <div className="app">
-      {token ? <Player spotify={spotify} /> : <Login />}
+      {token ? <Player spotify={spotify} logout={logout} /> : <Login />}
     </div>
   );
 };

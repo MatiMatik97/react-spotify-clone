@@ -24,24 +24,23 @@ export const getAccessTokenFromUrl = () => {
     const urlParams = new URLSearchParams(window.location.hash.replace("#", "?"));
 
     const accessTokenFromUrl = urlParams.get("access_token");
-    const expiresIn = urlParams.get("expires_in");
 
     window.location.hash = "";
 
-    return { accessTokenFromUrl, expiresIn };
+    return accessTokenFromUrl;
 }
 
-export const setAccessTokenCookies = (accessToken, expiresIn) => {
-    const date = new Date();
-    date.setTime(date.getTime() + expiresIn * 1000);
+const PREFIX = "spotify_access_token";
 
-    document.cookie = `spotify_access_token=${accessToken}; expires=${date.toUTCString()}; path=/`;
+export const setAccessTokenLocalStorage = (accessToken) => {
+    localStorage.setItem(PREFIX, accessToken);
 }
 
-export const getAccessTokenFromCookies = () => {
-    if (document.cookie.length === 0) return null;
+export const removeAccessTokenFromLocalStorage = () => {
+    localStorage.removeItem(PREFIX);
+}
 
-    const urlParams = new URLSearchParams(`?${document.cookie.replace(/(; )/g, "&")}`);
-
-    return urlParams.get("spotify_access_token");
+export const getAccessTokenFromLocalStorage = () => {
+    if (localStorage.length === 0) return null;
+    return localStorage.getItem(PREFIX);
 }

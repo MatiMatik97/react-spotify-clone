@@ -16,6 +16,7 @@
     margin-right: auto;
     padding: 10px;
     height: 70px;
+    cursor: pointer;
 }
 
 .sidebar__title {
