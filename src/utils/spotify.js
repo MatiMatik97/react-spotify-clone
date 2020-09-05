@@ -1,4 +1,4 @@
-const development = true;
+const development = false;
 
 const authEndpoint = "https://accounts.spotify.com/authorize";
 
