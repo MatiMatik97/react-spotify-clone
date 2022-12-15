@@ -13,7 +13,11 @@ const scopes = [
     "user-read-recently-played",
     "user-read-playback-state",
     "user-top-read",
-    "user-modify-playback-state"
+    "user-modify-playback-state",
+    "playlist-read-private",
+    "playlist-read-collaborative",
+    "user-follow-read",
+    "user-library-read"
 ];
 
 const other = "response_type=token&show_dialog=true";

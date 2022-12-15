@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     color: gray;
-    height: 40px;
+    min-height: 40px;
     cursor: pointer;
     transition: 200ms color ease-in;
 }
@@ -10,8 +10,11 @@
 .sidebarOption:hover {
     color: white;
 }
-.sidebarOption.onlyTitleOption{
-    height: 30px;
+
+.sidebarOption.onlyTitleOption:not(:last-child) {
+    padding: 5px 0;
+    /* background-color: red; */
+    border-bottom: #282828 1px solid;
 }
 
 .sidebarOption__icon {
@@ -20,7 +23,6 @@
 
 .sidebarOption>p {
     width: 85%;
-    margin-top: 5px;
     margin-left: 20px;
     font-size: 14px;
 }

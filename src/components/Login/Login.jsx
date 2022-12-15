@@ -1,12 +1,13 @@
 import React from "react";
 import "./Login.css";
 import { loginUrl } from "../../utils/spotify";
+import SpotifyLogo from "./spotify-logo.png";
 
 const Login = () => {
   return (
     <div className="login">
       <img
-        src="https://beinggarifuna.com/wp-content/uploads/2018/05/Spotify-symbol.jpg"
+        src={SpotifyLogo}
         alt="login-spotify-logo"
         className="login__spotifyLogo"
       />

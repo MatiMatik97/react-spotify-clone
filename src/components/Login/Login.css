@@ -9,6 +9,8 @@
 
 .login__spotifyLogo {
     width: 100%;
+    min-width: 200px;
+    max-width: 500px;
 }
 
 .login__link {
